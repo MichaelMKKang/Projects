@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Mar 17 16:03:53 2017
-
-@author: Michael Kang
-"""
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -322,16 +315,6 @@ log_loss(validation['crime'], predicted)
           
           
           
-          
-          
-          
               
-          
-          
-          
-          
-          
-          
-          
           
           
