@@ -1,3 +1,28 @@
+#This dataset was pulled off Kaggle.com as part of the "House Prices: Advanced Regression Techniques" tutorial competition.
+#There are 79 explanatory variables that describe almost all features of residential homes in Ames, Iowa and the goal is to
+#   ultimately predict the final price of each home. This dataset is used as an alternative to the oft used Boston housing dataset
+#Here is a link to the notes about the data (https://ww2.amstat.org/publications/jse/v19n3/decock.pdf)
+#
+#In my code, I preprocess the different features by dealing with missing data and outliers using visualizations, correlation
+#   heatmaps, and a little feature engineering. I then tune and train a few algorithms and use ensembles to get a more accurate score.
+#Neural networks were also attempted, but showed little promise.
+#
+#My final submission (after some more tuning and ensembling additional models) to the Kaggle competition yielded just
+#   under the 15th percentile with a log-loss of 0.11754.
+
+#This dataset was pulled off Kaggle.com as under the dataset named "Predict'em All at the link below
+#https://www.kaggle.com/semioniy/predictemall
+#The data describes pokemon sightings in the mobile game Pokemon Go, developed by Niantic. In the game, players use a mobile
+#   device's GPS capability to locate, capture, battle, and train virtual creatures, called Pokémon, who appear on the screen
+#   as if they were in the same real-world location as the player.
+#The data consists of ~239,000 pokemon sightings having coordinates, time, weather, population density, distance to in-game landmarks.
+#
+#The goal of this code is to predict what pokemon will appear given information about the setting of the sighting (aka given a signal
+#   that a pokemon was appearing, we hope to predict which one appears).
+#To do so, I visualize and process the data by by feature selection and feature engineering. 
+#Then, the ID of the pokemon is predicted via a variety of algorithms and neural networks. In the future, I will tune the different
+#   algorithms more.
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
