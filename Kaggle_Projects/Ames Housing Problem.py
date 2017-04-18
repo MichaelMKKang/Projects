@@ -6,6 +6,9 @@
 #In my code, I preprocess the different features by dealing with missing data and outliers using visualizations, correlation
 #   heatmaps, and a little feature engineering. I then tune and train a few algorithms and use ensembles to get a more accurate score.
 #Neural networks were also attempted, but showed little promise.
+#
+#My final submission (after some more tuning and ensembling additional models) to the Kaggle competition yielded just
+#   under the 15th percentile with a log-loss of 0.11754.
 
 import pandas as pd
 import numpy as np
