@@ -1,15 +1,3 @@
-#This dataset was pulled off Kaggle.com as part of the "House Prices: Advanced Regression Techniques" tutorial competition.
-#There are 79 explanatory variables that describe almost all features of residential homes in Ames, Iowa and the goal is to
-#   ultimately predict the final price of each home. This dataset is used as an alternative to the oft used Boston housing dataset
-#Here is a link to the notes about the data (https://ww2.amstat.org/publications/jse/v19n3/decock.pdf)
-#
-#In my code, I preprocess the different features by dealing with missing data and outliers using visualizations, correlation
-#   heatmaps, and a little feature engineering. I then tune and train a few algorithms and use ensembles to get a more accurate score.
-#Neural networks were also attempted, but showed little promise.
-#
-#My final submission (after some more tuning and ensembling additional models) to the Kaggle competition yielded just
-#   under the 15th percentile with a log-loss of 0.11754.
-
 #This dataset was pulled off Kaggle.com as under the dataset named "Predict'em All at the link below
 #https://www.kaggle.com/semioniy/predictemall
 #The data describes pokemon sightings in the mobile game Pokemon Go, developed by Niantic. In the game, players use a mobile
