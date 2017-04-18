@@ -1,5 +1,6 @@
 #This is practice code which seeks to recognize digits from the MNIST dataset
 #primarily through convolutional neural networks.
+#The data set consists of tens of thousands of greyscale images of handwritten digits.
 #This was used to create a submission to Kaggle.com, a platform
 #for data science competitions. This particular submission (having trained over
 #additional epochs) got at the 8th percentile.
