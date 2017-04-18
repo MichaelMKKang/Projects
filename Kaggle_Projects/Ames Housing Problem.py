@@ -1,3 +1,12 @@
+#This dataset was pulled off Kaggle.com as part of the "House Prices: Advanced Regression Techniques" tutorial competition.
+#There are 79 explanatory variables that describe almost all features of residential homes in Ames, Iowa and the goal is to
+#   ultimately predict the final price of each home. This dataset is used as an alternative to the oft used Boston housing dataset
+#Here is a link to the notes about the data (https://ww2.amstat.org/publications/jse/v19n3/decock.pdf)
+#
+#In my code, I preprocess the different features by dealing with missing data and outliers using visualizations, correlation
+#   heatmaps, and a little feature engineering. I then tune and train a few algorithms and use ensembles to get a more accurate score.
+#Neural networks were also attempted, but showed little promise.
+
 import pandas as pd
 import numpy as np
 import seaborn as sns
@@ -21,8 +30,8 @@ from keras.optimizers import SGD
 import xgboost as xgb
 
 
-train = pd.read_csv('C:/Users/Michael Kang/Desktop/Data_Files/Housing/Housing_train.csv')
-test = pd.read_csv('C:/Users/Michael Kang/Desktop/Data_Files/Housing/Housing_test.csv')
+train = pd.read_csv('/input/.../train.csv')
+test = pd.read_csv('/input/.../test.csv')
 
 #Documentation for the Ames Housing Data indicates that there are outliers present in the data
 #http://ww2.amstat.org/publications/jse/v19n3/Decock/DataDocumentation.txt
