@@ -1,3 +1,11 @@
+#This dataset was pulled off Kaggle.com as part of the "Video Game Sales" dataset at the link below
+#https://www.kaggle.com/gregorut/videogamesales
+#The data consists of a list of video games released with sales greater than 100,000 copies sold via a scrape of vgchartz.com
+#Features include Name, Platform, Genre, Publisher, Sales in different regions of the world, and year released.
+#
+#In my code, I preprocess the data by visualization, correlation heatmaps, and feature selection/engineering. I spot-check a variety
+#   of regression techniques/algorithms to better predict the global sales of each game
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
