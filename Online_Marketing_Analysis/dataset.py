@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Apr 26 13:35:12 2017
-
-@author: Michael Kang
-"""
-
 #This program seeks to determine the amount expected to be spent assuming that the impression is served
 #It does so by placing the data into a pandas dataframe and processing the data such that data types
 #   are correct and anomalous domains are removed.
@@ -12,8 +5,8 @@ Created on Wed Apr 26 13:35:12 2017
 #   the domain names was also conducted, thereby checking if each domain name had tokens that were contained
 #   in a created dictionary (of the most common tokens). It is assumed that domain names are related to the
 #   type of website it represents, and thus offer insights into the amount spent for that domain.
-
-#the various terms will be explained as if one were present at an online auction (one for buying the space/time to 
+#
+#The various terms will be explained as if one were present at an online auction (one for buying the space/time to 
 #   show your online ad)
 #
 #advertiser:        identity of advertiser
@@ -80,7 +73,7 @@ for col in numeric_cols:
 df.total_spent = df.total_spent.round(decimals=2)
 df.total_ecp = df.total_ecp.round(decimals=2)
 
-#only advertiser for this is baublebar. Dropping since it doesn't add any additional information
+#only advertiser for this is _______. Dropping since it doesn't add any additional information
 df = df.drop('advertiser', axis=1)
 #num_avail has 127/20899 (0.6%) of entries filled out. Dropping feature.
 df = df.drop('num_avail', axis=1)
