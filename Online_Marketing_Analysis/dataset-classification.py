@@ -303,6 +303,7 @@ print(tuned_models.sort_values(by='F1', ascending=False))
 
 #Since K-Nearest Neighbors shows the highest F1 score, using those results
 #Run this last with X_provided being a processed and tokenized domain. Outputs whether served(1) or not(1).
+#Implement using pipeline next time...
 def predict(X_provided):
     knn = KNeighborsClassifier(n_neighbors = 5).fit(X_train, Y_train)
     pred_KNN = knn.redict(X_provided)
