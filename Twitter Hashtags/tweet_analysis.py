@@ -1,9 +1,10 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue May  2 13:02:42 2017
+#This code applies different algorithms to the tweets processed through tweet_processing.py
+#Trying LinearSVC, KNearestNeighbors, Decision Trees, and Random Forests as they are explicitly supported by sci-kit learn's multi-class modules.
+            #http://scikit-learn.org/stable/modules/multiclass.html
+#Also tried using a fully-connected neural network to predict classes.
+#Ultimately found that RandomForestClassifier predicted best, with about a 85% accuracy.
+#TBT whether accuracy is truly the best metric; will read up on literature.
 
-@author: Michael Kang
-"""
 
 import json
 import pandas as pd
@@ -30,13 +31,11 @@ from sklearn.model_selection import ShuffleSplit
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.callbacks import ModelCheckpoint, EarlyStopping
-
-
 import tweet_processing
             
             
             
-path = 'C:/Users/Michael Kang/.spyder-py3/tweet_data2.txt'
+path = 'custom_path'
 X = tweet_processing.make_data_df(path)
 Y = tweet_processing.make_labels(path)
 
@@ -46,9 +45,10 @@ Y = tweet_processing.make_labels(path)
 #missing_data = pd.concat([total, percent], axis=1, keys=['Total', 'Percent'])
 #missing_data.head()
 
+#Splitting data into training and cross-validation sets.
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, train_size=0.67, random_state=21)
 
-
+#Spot-checking various multi-label algorithms
 linear_svc = OneVsRestClassifier(LinearSVC(random_state=0)).fit(X_train, Y_train)
 pred_linear_svc = linear_svc.predict(X_test)
 linear_acc = accuracy_score(Y_test, pred_linear_svc)
@@ -68,7 +68,7 @@ random_forest_acc = accuracy_score(Y_test, pred_random_forest)
 #Neural Network (Fully Connected)
 #Inputs need to be numpy arrays
 train = X.values
-features = Y
+classes = Y
 #Making fully connected neural network. Could implement regularization with dropout, but seems to not be needed
 #   as acc and val_acc are similar
 nnmodel = Sequential()
@@ -87,7 +87,7 @@ checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_o
 callbacks_list = [checkpoint]
 
 #Plot learning curves
-nn_model_history = nnmodel.fit(train, features, validation_split=0.33, epochs=10, batch_size=10, callbacks=callbacks_list)
+nn_model_history = nnmodel.fit(train, classes, validation_split=0.33, epochs=10, batch_size=10, callbacks=callbacks_list)
 plt.plot(nn_model_history.history['acc'])
 plt.plot(nn_model_history.history['val_acc'])
 plt.title('model accuracy')
@@ -97,7 +97,7 @@ plt.legend(['train', 'test'], loc='upper left')
 #Since just getting an estimate, just getting final value since graph shows it to have mostly stabilized.
 nn_score = nn_model_history.history['acc'][-1:][0]
 
-#Now tuning randomforest (which did significantly better in accuracy) (should i even use accuracy?)
+#Now tuning randomforest (which did significantly better in accuracy)
 
 depth = [7,9,15]
 maxfeatures = ['auto']#, 'log2', None]
@@ -111,6 +111,7 @@ pred_tuned_random_forest = tuned_random_forest.predict(X_test)
 tuned_random_forest_acc = accuracy_score(Y_test, pred_tuned_random_forest)
 #85.297619047619044
 
+
 '''
 #Another python file that contains the function
 from plot_learning_curve import plot_learning_curve
@@ -120,13 +121,3 @@ estimator = OneVsRestClassifier(RandomForestClassifier(n_estimators=1000,max_dep
 plot_learning_curve(estimator, title, X_train, Y_train, cv=cv, n_jobs=-1)
 plt.show()
 '''
-'''
-#https://www.researchgate.net/post/How_to_do_Multi-Label_and_Multi-Class_classification_on_Tweets
-#https://stats.stackexchange.com/questions/233275/multilabel-classification-metrics-on-scikit
-#http://scikit-learn.org/stable/modules/model_evaluation.html#from-binary-to-multiclass-and-multilabel
-#http://machinelearningmastery.com/multi-class-classification-tutorial-keras-deep-learning-library/
-#http://alexanderfabisch.github.io/learning-curves-in-scikit-learn.html
-'''
-
-#applying to new text
-#Using beautiful soup to mine text
