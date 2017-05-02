@@ -1,9 +1,10 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue May  2 15:04:58 2017
+#This code processes the data pulled a saved .txt file from using tweet_streaming.py
+#Worked to get representative data by dropping irrelevant features, engineering new ones out of existing data, and cleaning text.
+#Made a matrix of whether each tokenized word/word fragment was one of the 200 most common tokens.
+#This was mainly done using regular expressions and NLTK.
 
-@author: Michael Kang
-"""
+#These functions are used in tweet_analysis.py in order to obtain features and labels for making predictive models.
+
 
 import json
 import pandas as pd
@@ -19,7 +20,8 @@ from sklearn.preprocessing import MultiLabelBinarizer, LabelEncoder
 
 
 
-
+#Regex used for tokenizing. Saved time by borrowed from Marco Bonzanini's tutorial on using tweepy.
+#Might be worth optimizing.
 emoticons_str = r"""
     (?:
         [:=;] # Eyes
@@ -52,6 +54,7 @@ def preprocess(s, lowercase=False):
         tokens = [token if emoticon_re.search(token) else token.lower() for token in tokens]
     return tokens
 
+#Provides the supplementary data (aka besides the text and hashtags) such as num_followers or whether a tweet was retweeted.
 def get_data(path):
     tweets_data = []
     tweets_file = open(path, "r")
@@ -65,6 +68,7 @@ def get_data(path):
     #print(count_all.most_common(5))
     return tweets_data
 
+#Provides the text of the tweet for tokenizing and cleaning.
 def get_text(path):
     tweets_text = []
     tweets_file = open(path, "r")
@@ -81,6 +85,7 @@ def get_text(path):
     #print(count_all.most_common(5))
     return tweets_text
 
+#Provides the hashtags for taking frequency distributions to get the most prevalent hashtags used during data collection.
 def get_hashtags(path):
     tweets_hashtags = []
     tweets_file = open(path, "r")
@@ -96,6 +101,7 @@ def get_hashtags(path):
     #print(count_all.most_common(10))
     return tweets_hashtags
 
+#Uses data from get_data() and leaves relevant features.
 def make_tweets_df(path):
     tweets_data = get_data(path)
     tweets = pd.DataFrame(tweets_data)
@@ -122,6 +128,8 @@ def make_tweets_df(path):
     tweets = tweets.drop('lang', axis=1)
     return tweets
 
+#Takes the text of each tweet, processes it using NLTK and regular expressions, then combines it with data from make_tweets_df into
+#   a single pandas dataframe.
 def make_data_df(path):
     #Get text-based information
     text = get_text(path)
@@ -133,14 +141,14 @@ def make_data_df(path):
     words = []
     for blurbs in birds:
         words.extend(blurbs)
-#Getting cleaning words starting with apostrophes, words that are quote/unquoted, semicolons, colons, elipses
+    #Getting cleaning words starting with apostrophes, words that are quote/unquoted, semicolons, colons, elipses
     for i in range(0,len(words)):
         if words[i].startswith(("'",'"','…', ':', '.', ',')):
             words[i] = words[i][1:]
         if words[i].endswith(("'",'"','…', ':', '.', ',', ';')): #These two will turn elipses into a just a period
             words[i] = words[i][:-1]
 
-#Getting frequency of words.
+    #Getting frequency of words.
     words = nltk.FreqDist(words)
     mostcommon = words.most_common(200)                        #Total length of 40726 tweets. 
     common_words = []
@@ -155,7 +163,7 @@ def make_data_df(path):
             temp[feat] = (feat in word)
         features.append(dict(temp))
         
-#Get information out of tweets.
+    #Get information out of tweets.
     tweets = make_tweets_df(path)
     tweet_starts = tweets.text.tolist()
     RT_list = [0]*len(tweet_starts)
@@ -167,7 +175,7 @@ def make_data_df(path):
         if tweet_starts[i].startswith('@'):
             at_list[i]=1
             
-#Putting it all together into a final dataframe
+    #Putting it all together into a final dataframe
     data = pd.DataFrame(features)
     data['eng_lang'] = tweets['eng_lang']
     data['user'] = tweets['user']
@@ -180,28 +188,7 @@ def make_data_df(path):
     data['eng_lang'] = data['eng_lang'].fillna(1)
     return data
 
-'''langauge = tweets['lang'].tolist()   #len of 40726
-#To get indicies of non-english tweets
-non_eng_indicies = []
-for lan in range(0,len(langauge)):
-    if langauge[lan] != 'en':
-        non_eng_indicies.append(lan)
-#Now deleting these indicies from all tweets(our dataframe), birds (our text) and tgs(our hashtags)
-#Need to delete in reverse order to not throw all subsequent indicies
-for index in sorted(non_eng_indicies, reverse=True):
-    del birds[index]                                    #new len of 39040 for all three
-    del tgs[index]
-tweets = tweets[tweets.lang == 'en']'''
-
-''' This part is to process the text so that only english characters/numbers'''
-
-#tweets[tweets.lang != 'en']
-#Now to get rid of any non-english characters
-    #http://stackoverflow.com/questions/18667410/how-can-i-check-if-a-string-only-contains-letters-in-python
-    #http://stackoverflow.com/questions/27084617/detect-strings-with-non-english-characters-in-python
-    #http://stackoverflow.com/questions/3788870/how-to-check-if-a-word-is-an-english-word-with-python
-
-
+#Returns supplementary information about the twitter accounts that produced each tweet.
 def process_users(data):
     user_list = data['user'].tolist()
     favourites_count = []
@@ -249,12 +236,13 @@ def process_users(data):
     data['statuses_count'] = pd.Series(statuses_count)
     zone = LabelEncoder().fit_transform(times)                        #Or use LabelBinarizer?
     data['time_zone'] = pd.Series(zone)
-#Converting lang into ordinal. Since vast majority is in english, it should be fine for now? Will experiment to see if worth changing
-#data['language'] = LabelBinarizer().fit_transform(data['lang'].factorize())
-#Dropping user column
+    #Converting lang into ordinal. Since vast majority is in english, it should be fine for now? Will experiment to see if worth changing
+    #data['language'] = LabelBinarizer().fit_transform(data['lang'].factorize())
+    #Dropping user column
     data = data.drop(['user'], axis=1)
     return data
 
+#Takes hashtags and returns an array of whether each tweet had a hashtag within the most common hashtags seen in the data provided.
 def make_labels(path):
     htags = get_hashtags(path)
     tgs = []
@@ -264,13 +252,13 @@ def make_labels(path):
     hsh = []
     for tag in tgs:
        hsh.extend(tag)
-#Cleaning hashtags get rid of punctuation
+    #Cleaning hashtags get rid of punctuation
     for i in range(0,len(hsh)):
         if len(hsh[i]) > 2:                 #To avoid getting rid of #…
             if hsh[i].endswith((':', '…', '!')):
                 hsh[i] = hsh[i][:-1]
 
-#Getting frequency of hashtags
+    #Getting frequency of hashtags
     hsh = nltk.FreqDist(hsh)
     mostcommonhash = hsh.most_common(40)        #at least 75 instances of each tweet
     common_hash = []
