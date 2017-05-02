@@ -5,7 +5,6 @@
 #Ultimately found that RandomForestClassifier predicted best, with about a 85% accuracy.
 #TBT whether accuracy is truly the best metric; will read up on literature.
 
-
 import json
 import pandas as pd
 import re
@@ -34,7 +33,7 @@ from keras.callbacks import ModelCheckpoint, EarlyStopping
 import tweet_processing
             
             
-            
+#Pulling data            
 path = 'custom_path'
 X = tweet_processing.make_data_df(path)
 Y = tweet_processing.make_labels(path)
