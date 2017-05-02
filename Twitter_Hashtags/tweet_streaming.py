@@ -39,4 +39,5 @@ if __name__ == '__main__':
     stream = Stream(auth, l)
 
     #This line filter Twitter Streams to capture data by the keywords: (python, health)
+    #Can be replaced with any keywords. Some that come to mind are: (dogs, science, NYC, reddit, diet, nature, school, NFL)
     stream.filter(track=['python', 'health'])
