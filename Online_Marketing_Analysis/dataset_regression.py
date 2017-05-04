@@ -1,4 +1,5 @@
-#This program seeks to determine the amount expected to be spent assuming that the impression is served
+
+#Redacted information as requested.
 #It does so by placing the data into a pandas dataframe and processing the data such that data types
 #   are correct and anomalous domains are removed.
 #Of interest is how since there was not much data - nor many features - natural language processing of
@@ -143,10 +144,10 @@ data = data[pd.notnull(data['total_ecp'])]
 
 
 #----------------------------------------------------------
-""" Applying regression techniques to create a predictive model for total_spent"""
+""" Applying regression techniques to create a predictive model..."""
 #----------------------------------------------------------
-X = data.drop('total_spent', axis=1)
-Y = data['total_spent']
+X = #Redacted information as requested.
+Y = #Redacted information as requested.
 
 #We split our data to have unseen data to test against later.
 #   Could have just done cross-validation on the whole set, but this is better practice.
