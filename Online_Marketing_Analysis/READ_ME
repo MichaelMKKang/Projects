@@ -1,0 +1,13 @@
+Using the example dataset supplied by an interview, I sought to build predictive models in order to answer two questions:
+1.	Which websites will we have impressions served? (Where will we buy ads?)
+2.	How much will be spent in total for a given website?
+
+Data processing for both models was similar: data was moved into a pandas dataframe and data types were set. Features were processed by feature engineering, dropping anomalous domains, and cleaning text. Also used the Natural Language Toolkit(NLTK) to do one hot encoding with the top 160 most common tokenized words present in the domain names supplied.
+
+For the first goal of identifying “Which websites will we have impressions served?”, I built a predictive classification model that takes information about a website and outputs whether or not it’s likely to have impressions served there with an F1 score of 0.41. More technically, I spot-checked a variety of classification algorithms (such as support vector classification (SVC), Decision Trees, and Boosting) and tuned the most promising ones to find that K-Nearest Neighbors is the best model. The code is capable of taking a given input, processing it, and then giving whether or not we are likely to serve impressions from that website. Of note is that the classes are significantly skewed (rough ratio of 85:15, no:yes). Therefore, F1 scores (the harmonic mean of the precision and the recall) were maximized. Achieved a stratified cross-validation score of F1=0.43.
+
+For the second goal of determining “How much will be spent in total for a given website?”, I built a predictive regression model that takes information about a website and outputs the expected total_spent with around a 99% accuracy. More technically, I spot-checked a variety of regression algorithms (such as ElasticNet, fully-connected neural networks, and XGBoost) and then tuned the most promising ones. The code is capable of taking a given input, processing it, and then outputting the expected amount of money spent on a campaign. The models sought to maximize accuracy and achieved a cross-validation score of up to 99.5% accuracy. Results were ensembled to increase robustness.
+
+Otherwise, a few tests could be run. Firstly, we could check data quality issues: there are 8 instances of win_rate being greater than 100% in  the data, as well as a few hundred instances of impressions being served apparently without them being seen. Another interesting test would be to gather data about how impressions served correlate with time or various events. 
+
+Notes for the future: could have used pipelines for the processing of the data. Could also have searched for more data online.
