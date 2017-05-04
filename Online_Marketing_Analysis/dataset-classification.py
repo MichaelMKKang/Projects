@@ -1,4 +1,4 @@
-#This program seeks to classify which domains' impressions will be served given domain name and num_seen.
+#Redacted information as requested.
 #It does so by placing the data into a pandas dataframe and processing the data sch that data types
 #   are correct and anomalous domains are removed.
 #Of interest is how since there was not much data - nor many features - natural language processing of
@@ -17,7 +17,7 @@
 #num_visible:       number of impressions actually visible on website (a percentage of num_served)
 #total_spent:       the amount of money spent at an auction
 #total_ecp:         "An estimate of a bid that is likely to win the impression from a given publisher based on 
-#                           observing historical bids." Calculated using AppNexus.
+#                           observing historical bids." Calculated using known formula.
 
 
 #Importing all necesssary packages
@@ -68,8 +68,7 @@ df = pd.DataFrame(data, columns=headers)
 
 
 #----------------------------------------------------------
-""" Processing dataframe datatypes and dropping irrelevant features
-    Feature Engineering: feature of "if served or not"""
+""" Processing dataframe datatypes and dropping irrelevant features"""
 #----------------------------------------------------------
 #df.dtypes shows that all elements are strings.
 #Change numeric features to numeric and round floats to closest cent
@@ -89,13 +88,11 @@ df = df.drop('advertiser', axis=1)
 #num_avail has 127/20899 (0.6%) of entries filled out. Dropping feature.
 df = df.drop('num_avail', axis=1)
 
-#Trying to predict which impressions will be served.
-served_df = df[['domain', 'num_seen', 'num_served']]
+#Trying to predict...
+#Redacted information as requested.
 
-#Making a new feature of whether of not the seen impression ended up served
-served_df['Served'] = served_df['num_served'].fillna(0)
-served_df.loc[served_df.Served != 0, 'Served'] = 1
-served_df = served_df.drop('num_served', axis=1)
+#Making a new feature ...
+#Redacted information as requested.
 
 
 
@@ -154,19 +151,19 @@ data = data.dropna()
 #Now we append columns from served_df to data
 data['num_seen'] = served_df['num_seen']
 data['served'] = served_df['Served']
-#Note that an impression is served only 15% of the time. Skewed classes
+#Note that ... Skewed classes #Redacted information as requested.
 
 
 
 
 
 #----------------------------------------------------------
-""" Applying classification techniques to create a predictive model for whether served or not
+""" Applying classification techniques to create a predictive model.
     Here I spotcheck"""
 #----------------------------------------------------------
 #Could use train_test_split, but this split isn't needed and we need all the data we can get
-X_train = data.drop('served', axis=1)
-Y_train = data['served']
+X_train = #Redacted information as requested.
+Y_train = #Redacted information as requested.
 
 linear_svc = LinearSVC()
 cv = StratifiedKFold(n_splits=5,shuffle=True,random_state=45)
